@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+    <gui>
+        <camera name="user_camera">
+            <pose>0.0 -1.6 1.0 0.0 0.275 1.57</pose>
+        </camera>
+    </gui>
+    
+    <model name="box">
+      <pose>0 2 0.5 0 0 0</pose>
+      <link name="link">
+        <kinematic>true</kinematic>
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.0</mu>
+                <mu2>0.0</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.1 0.1 0.1</size>
+            </box>
+          </geometry>
+          <material> 
+              <ambient>0.0 0.0 0.0 1</ambient>
+              <diffuse>0.0 0.0 0.0 1</diffuse>
+              <specular>0 0 0 1</specular>
+              <emissive>0 0 0 1</emissive>
+          </material>
+        </visual>
+      </link>
+
+      <!-- Apply a random velocity to the specified link-->
+      <!-- In this example, we move a box around. A key property of the link
+           is the frictionless surface -->
+      <plugin name="random" filename="librandom_velocity_plugin2.so">
+
+        <!-- Name of the link in this model that receives the velocity -->
+        <link>link</link>
+
+        <!-- Initial velocity that is applied to the link -->
+        <initial_velocity>0 0.5 0</initial_velocity>
+
+        <!-- Scaling factor that is used to compute a new velocity -->
+        <velocity_factor>0.5</velocity_factor>
+
+        <!-- Time, in seconds, between new velocities -->
+        <update_period>5</update_period>
+
+        <!-- Clamp the Z velocity value to zero. You can also clamp x and
+             y values -->
+        <!--<min_z>0</min_z>
+        <max_z>0</max_z>-->
+
+        <!-- Clamp object position-->
+        <min_x_pos>-1</min_x_pos>
+        <max_x_pos>1</max_x_pos>
+        <min_y_pos>1</min_y_pos>
+        <max_y_pos>3</max_y_pos>
+        <min_z_pos>-0.1</min_z_pos>
+        <max_z_pos>1</max_z_pos>
+      </plugin>
+    </model>
+
+   <physics type='ode'>
+       <max_step_size>0.001</max_step_size>
+       <real_time_factor>1.0</real_time_factor>
+       <real_time_update_rate>1000</real_time_update_rate>
+       <gravity>0 0 -9.8</gravity>
+    </physics>
+    <scene>
+	    <shadows>false</shadows>
+	    <ambient>200.0 200.0 200.0 128.0</ambient>
+    </scene>
+  </world>
+</sdf>
